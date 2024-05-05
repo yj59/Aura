@@ -44,8 +44,11 @@ void AAuraPlayerController::BeginPlay()
 	 * - Subsystem은 싱글톤으로 동작함(입력 기간 동안 한 개만 존재)
 	 */
 	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
-	check(Subsystem);
-	Subsystem->AddMappingContext(AuraContext, 0);
+	if(Subsystem)
+	{
+		Subsystem->AddMappingContext(AuraContext, 0);
+	}
+	
 
 	// 기본 마우스 커서 노출
 	bShowMouseCursor = true;
