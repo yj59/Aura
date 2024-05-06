@@ -13,6 +13,7 @@ UOverlayWidgetController* AAuraHUD::GetOverlayWidgetController(const FWidgetCont
 	{
 		OverlayWidgetController = NewObject<UOverlayWidgetController>(this, OverlayWidgetControllerClass);
 		OverlayWidgetController->SetWidgetControllerParams(WCParams);
+		OverlayWidgetController->BindCallbacksToDependencies();
 
 		return OverlayWidgetController;
 	}
@@ -21,7 +22,7 @@ UOverlayWidgetController* AAuraHUD::GetOverlayWidgetController(const FWidgetCont
 
 void AAuraHUD::InitOverlay(APlayerController* PC, APlayerState* PS, UAbilitySystemComponent* ASC, UAttributeSet* AS)
 {
-	// 뮈젯 및 위젯 컨트롤러 생성 
+	// 위젯 및 위젯 컨트롤러 생성 
 	checkf(OverlayWidgetClass, TEXT("Overlay Widget Class ininitialized, please fill out BP_AuraHUD"));
 	checkf(OverlayWidgetControllerClass, TEXT("Overlay Widget Controller uninitialized, please fill out BP_AuraHUD"));
 	
@@ -35,11 +36,9 @@ void AAuraHUD::InitOverlay(APlayerController* PC, APlayerState* PS, UAbilitySyst
 	// 위젯에 위젯 컨트롤러 설정
 	OverlayWidget->SetWidgetController(WidgetController);
 	
-	// 위젯 컨트롤러가 바인딩 된 이후에 브로드캐스트를 수행해야 함!
+	// 위젯 컨트롤러가 바인딩 된 이후에 브로드캐스트를 수행해야 함!=> 브로드캐스트 초기값
 	WidgetController->BroadcastInitialValues();
 
 	
 	Widget->AddToViewport();
-
-	
 }
