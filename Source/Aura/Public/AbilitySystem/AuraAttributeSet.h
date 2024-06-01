@@ -20,7 +20,43 @@ class UAttributeSet;
 		GAMEPLAYATTRIBUTE_VALUE_GETTER(PropertyName) \
 		GAMEPLAYATTRIBUTE_VALUE_SETTER(PropertyName) \
 		GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName)
+
+USTRUCT()
+struct FEffectProperties
+{
+	GENERATED_BODY()
+
+	FEffectProperties() {}
 	
+	FGameplayEffectContextHandle EffectContextHandle;
+
+	UPROPERTY()
+	UAbilitySystemComponent* SourceASC = nullptr;
+
+	UPROPERTY()
+	AActor* SourceAvatarActor = nullptr;
+
+	UPROPERTY()
+	AController* SourceController = nullptr;
+	
+	UPROPERTY()
+	ACharacter* SourceCharacter = nullptr;
+
+	UPROPERTY()
+	UAbilitySystemComponent* TargetASC = nullptr;
+
+	UPROPERTY()
+	AActor* TargetAvatarActor = nullptr;
+
+	UPROPERTY()
+	AController* TargetController = nullptr;
+	
+	UPROPERTY()
+	ACharacter* TargetCharacter = nullptr;
+	
+	
+};
+
 /**
  * [4강] boilerplate: 서버에 알릴 속성을 추가하는 과정
  * 1. 변수 선언
@@ -45,6 +81,12 @@ public:
 	 */
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override; 
 
+	/** 속성이 변경되기 전 호출 */
+	virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
+
+	/** 속성이 변경된 이후 호출 */
+	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
+	
 	// 담당자 함수 생성
 	/** 새 값과 이전 값 비교 */
 	UFUNCTION()
@@ -58,7 +100,9 @@ public:
 
 	UFUNCTION()
 	void OnRep_MaxMana(const FGameplayAttributeData& OldMaxMana) const;
-	
+
+private:
+	void SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Props) const;
 	
 public:
 	// 복제할 변수 선언
@@ -80,4 +124,5 @@ public:
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, MaxHealth);
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Mana);
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, MaxMana);
+
 };
