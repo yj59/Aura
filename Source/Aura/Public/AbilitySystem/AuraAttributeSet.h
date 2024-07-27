@@ -57,8 +57,7 @@ struct FEffectProperties
 	
 };
 
-/**
- * [4강] boilerplate: 서버에 알릴 속성을 추가하는 과정
+/** [4강] boilerplate: 서버에 알릴 속성을 추가하는 과정
  * 1. 변수 선언
  * 2. 선언한 변수 복제
  * 3. 담당자 함수 생성(매개변수: 이전 값)
@@ -101,28 +100,63 @@ public:
 	UFUNCTION()
 	void OnRep_MaxMana(const FGameplayAttributeData& OldMaxMana) const;
 
+	UFUNCTION()
+	void OnRep_Strength(const FGameplayAttributeData& OldStrength) const;
+
+	UFUNCTION()
+	void OnRep_Intelligence(const FGameplayAttributeData& OldIntelligence) const;
+
+	UFUNCTION()
+	void OnRep_Resilience(const FGameplayAttributeData& OldResilience) const;
+
+	UFUNCTION()
+	void OnRep_Vigor(const FGameplayAttributeData& OldVigor) const;
+
 private:
 	void SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Props) const;
 	
 public:
 	// 복제할 변수 선언
 	/** 다른 모든 클라이언트가 해당 변경 사항을 알아야 하므로 복제 지정자(Replicated) 사용 */
+
+	/*
+	 * Primary Attributes
+	 */
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Strength, Category = "Primary Attributes")
+	FGameplayAttributeData Strength;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Strength);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Intelligence, Category = "Primary Attributes")
+	FGameplayAttributeData Intelligence;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Intelligence);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Resilience, Category = "Primary Attributes")
+	FGameplayAttributeData Resilience;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Resilience);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Vigor, Category = "Primary Attributes")
+	FGameplayAttributeData Vigor;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Vigor);
+
+	
+	/*
+	 * Vital Attributes
+	 */
+	
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Health, Category = "Vital Attributes")
 	FGameplayAttributeData Health;
-
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Health);		// 속성 접근자 매크로
+	
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MaxHealth, Category = "Vital Attributes")
 	FGameplayAttributeData MaxHealth;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, MaxHealth);
 
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Mana, Category = "Vital Attributes")
 	FGameplayAttributeData Mana;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Mana);
 
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MaxMana, Category = "Vital Attributes")
 	FGameplayAttributeData MaxMana;
-
-	// 속성 접근자 매크로
-	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Health);
-	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, MaxHealth);
-	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Mana);
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, MaxMana);
-
 };

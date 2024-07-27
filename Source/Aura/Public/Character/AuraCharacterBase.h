@@ -31,7 +31,17 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
-	/**
+	/** ASC와 캐릭터를 바인딩하기 위해 AbilityActor 초기화
+	 * - 캐릭터가 생성되면 ASC에 바인딩하려고 함 => 캐릭터의 Base부분에서 초기화시키는게 적합
+	 *   - 왜? 일반적으로 게임이 시작될 때 ASC 델리게이트를 하고 싶은데, 생성자는 게임이 시작되기 전에 실행되기 때문.
+	 *     => 델리게이트에 바인딩할 수 있는 일종의 장소가 필요함!
+	 *   - 초기화와 같은 일이 발생하자마자 호출할 수 있는 함수를 만들자. => 액터의 시작 단계면 상당히 이른 타이밍이므로 CharacterBase에 함수 선언
+	 *     - 왜 하필 CharacterBase? -> 사용자와 Enemy 둘 다 부여 가능하므로!
+	 */
+	virtual void InitAbilityActorInfo();
+	
+protected:
+	/** UPROPERTY와 TObjectPtr
 	 * UPROPERTY() => 모든 멤버 포인터는 UPROPERTY로 만듦
 	 * TObjectPtr: 포인터와 동일하게 동작 + 접근성과 관련된 기능 추가
 	 * - Access traking: 포인터가 얼마나 자주 액세스되거나 참조 해제되는지 추적 가능
@@ -42,8 +52,7 @@ protected:
 	TObjectPtr<USkeletalMeshComponent> Weapon;
 
 
-	/**
-	 * AbilitySystemComponent, AttributeSet => AuraEnemy 클래스 생성자에서 초기화
+	/** AbilitySystemComponent, AttributeSet => AuraEnemy 클래스 생성자에서 초기화
 	 * 단, 플레이어 캐릭터 클래스에선 초기화하고 싶지 않음 (PlayerState에서 초기화하고 싶을 경우)
 	 *   - Enemy는 Owner Actor와 Avatar Actor가 같은 클래스에서 동작하므로, Enemy 클래스에서 ASC와 AS 포인터가 유효값을 가짐
 	 *   - 플레이어 캐릭터는 Owner Actor와 Avatar Actor가 다른 클래스로 구분됨 (각각 PlayerState, Character 클래스)

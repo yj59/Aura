@@ -5,7 +5,7 @@
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystemComponent.h"
 #include "SWarningOrErrorBox.h"
-#include "BehaviorTree/BehaviorTreeTypes.h"
+// #include "BehaviorTree/BehaviorTreeTypes.h"
 
 AAuraEffectActor::AAuraEffectActor()
 {

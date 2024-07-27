@@ -6,13 +6,7 @@
 #include "AbilitySystemComponent.h"
 #include "AuraAbilitySystemComponent.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class AURA_API UAuraAbilitySystemComponent : public UAbilitySystemComponent
-{
-	 GENERATED_BODY()
+DECLARE_MULTICAST_DELEGATE_OneParam(FEffectAssetTags, const FGameplayTagContainer& /* Asset Tags */)
 
 /**
  * [멀티플레이에서의 GAS 개요]
@@ -51,5 +45,18 @@ class AURA_API UAuraAbilitySystemComponent : public UAbilitySystemComponent
  *     - 복제는 서버->클라이언트의 단방향으로만 작동
  *     - 플레이어의 입력 등 서버로 전달되어야 할 경우 RPC나 원격 프로시저 호출이라고 하는 복제된 함수의 형태로 전송됨
  */
+UCLASS()
+class AURA_API UAuraAbilitySystemComponent : public UAbilitySystemComponent
+{
+	 GENERATED_BODY()
+public:
+	void AbilityActorInfoSet();
+
+protected:
+	void EffectApplied(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveffectHandle);
+
+	
+public:
+	FEffectAssetTags EffectAssetTags;
  
 };

@@ -5,7 +5,7 @@
 
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
-#include "SAdvancedRotationInputBox.h"
+// #include "SAdvancedRotationInputBox.h"
 #include "Interaction/EnemyInterface.h"
 
 AAuraPlayerController::AAuraPlayerController()
@@ -34,6 +34,7 @@ void AAuraPlayerController::BeginPlay()
 
 	check(AuraContext);
 
+	
 	/**
 	 * EnhancedInputLocalPlayerSubsystem에 매핑 컨텍스트를 액세스해 연동
 	 * - 액세스하지 않을 경우 충돌 발생
@@ -48,7 +49,6 @@ void AAuraPlayerController::BeginPlay()
 	{
 		Subsystem->AddMappingContext(AuraContext, 0);
 	}
-	
 
 	// 기본 마우스 커서 노출
 	bShowMouseCursor = true;
